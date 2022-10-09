@@ -3,6 +3,7 @@
 namespace Polliest\CPT;
 
 use Carbon_Fields\Container\Container;
+use Polliest\Classes\BladeLoader;
 
 class Polls {
 
@@ -27,11 +28,11 @@ class Polls {
 	}
 
 	static function registerMetaBox() {
-		add_meta_box('polls_options', 'Poll options', [self::$instance, 'callback'], self::$ID);
+		add_meta_box('polls_options', 'Poll options', [self::$instance, 'renderMetaBox'], self::$ID);
 	}
 
-	function callback() {
-		echo "Options";
+	function renderMetaBox() {
+		echo BladeLoader::$blade->render('poll_metabox');
 	}
 
 }

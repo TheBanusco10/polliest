@@ -11,6 +11,7 @@ class Polliest {
 		add_action('init', [$this, 'registerCPTs']);
 		add_action( 'after_setup_theme', [$this, 'bootCarbonFields'] );
 		add_action('add_meta_boxes', [$this, 'registerMetaBoxes']);
+		BladeLoader::init();
 	}
 
 	function registerCPTs() {

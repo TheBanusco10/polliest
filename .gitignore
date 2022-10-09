@@ -1,4 +1,5 @@
 .idea/
 vendor/
+src/Views/cache/*
 
 polliest.iml
