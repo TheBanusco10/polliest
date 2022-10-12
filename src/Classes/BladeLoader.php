@@ -1,6 +1,6 @@
 <?php
 
-namespace Polliest\Classes;
+namespace Quiziest\Classes;
 
 use Jenssegers\Blade\Blade;
 

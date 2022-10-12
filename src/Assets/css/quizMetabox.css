@@ -1,0 +1,30 @@
+#options-metabox #quiziest-options {
+  margin-top: 2rem;
+}
+#options-metabox #quiziest-options .quiziest-option {
+  width: 30%;
+}
+#options-metabox #quiziest-options .quiziest-option:not(#options-metabox #quiziest-options .quiziest-option:first-child) {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#options-metabox #quiziest-options .quiziest-option__actions {
+  display: flex;
+  flex-basis: 50%;
+}
+#options-metabox #quiziest-options .quiziest-option__actions .quiziest-option__select {
+  flex: 1;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.04);
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+#options-metabox #quiziest-options .quiziest-option.selected {
+  border: 2px solid green;
+  border-radius: 4px;
+}
+
+/*# sourceMappingURL=quizMetabox.css.map */

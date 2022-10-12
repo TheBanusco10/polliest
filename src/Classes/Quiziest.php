@@ -1,11 +1,11 @@
 <?php
 
-namespace Polliest\Classes;
+namespace Quiziest\Classes;
 
 use Carbon_Fields\Carbon_Fields;
-use Polliest\CPT\Polls;
+use Quiziest\CPT\QuizCPT;
 
-class Polliest {
+class Quiziest {
 
 	public function init() {
 		add_action( 'init', [ $this, 'registerCPTs' ] );
@@ -16,11 +16,11 @@ class Polliest {
 	}
 
 	function registerCPTs() {
-		Polls::init();
+		QuizCPT::init();
 	}
 
 	function registerMetaBoxes() {
-		Polls::registerMetaBox();
+		QuizCPT::registerMetaBox();
 	}
 
 	function bootCarbonFields() {
@@ -30,14 +30,25 @@ class Polliest {
 	function registerScripts() {
 		global $post_type;
 
-		$scripts = apply_filters( 'polliest/registerScripts', [] );
+		$scripts = apply_filters( 'quiziest/registerScripts', [] );
+		$styles  = apply_filters( 'quiziest/registerStyles', [] );
 
 		foreach ( $scripts as $script ) {
-			if ( ! $script['page'] ) {
+			if ( ! $script['post_type'] ) {
 				wp_enqueue_script( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
 			} else {
 				if ( $post_type === $script['post_type'] ) {
 					wp_enqueue_script( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
+				}
+			}
+		}
+
+		foreach ( $styles as $style ) {
+			if ( ! $style['post_type'] ) {
+				wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'] );
+			} else {
+				if ( $post_type === $style['post_type'] ) {
+					wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'] );
 				}
 			}
 		}
