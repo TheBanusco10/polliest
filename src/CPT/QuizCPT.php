@@ -20,7 +20,8 @@ class QuizCPT {
 		self::$instance->registerQuizCpt();
 		self::$instance->registerQuizCPTScripts();
 
-		add_action( 'save_post', [ self::$instance, 'onSavePost' ] );
+		add_action( 'wp_ajax_nopriv_saveQuizOptions', [ self::$instance, 'saveQuizOptions' ] );
+		add_action( 'wp_ajax_saveQuizOptions', [ self::$instance, 'saveQuizOptions' ] );
 	}
 
 	function registerQuizCpt() {
@@ -36,11 +37,13 @@ class QuizCPT {
 	}
 
 	function renderMetaBox( $post ) {
-		$options = get_post_meta( $post->ID, 'quiz_options', true );
+		$options       = get_post_meta( $post->ID, 'quiz_options', true );
+		$correctOption = get_post_meta( $post->ID, 'quiz_options_correct', true );
 
 		echo BladeLoader::$blade->render( 'quiz_metabox', [
-			'options' => $options,
-			'post_ID' => $post->ID,
+			'options'       => $options,
+			'correctOption' => $correctOption,
+			'post_ID'       => $post->ID,
 		] );
 	}
 
@@ -49,16 +52,25 @@ class QuizCPT {
 		Assets::addStyle( 'quiz-metabox', PLUGIN_URL . 'Assets/css/quizMetabox.css', [], false, QuizCPT::$ID );
 	}
 
-	function onSavePost( $post_ID ) {
-		$options = $_POST[ $post_ID . '-option' ] ?? [];
+	function saveQuizOptions() {
+		$data          = $_POST['data'];
+		$postID        = $data['postID'];
+		$options       = $data['options'];
+		$correctOption = $data['correctOption'];
 
 		if ( sizeof( $options ) > 0 ) {
 
 			// Removing empty fields
 			$options = array_filter( $options );
 
-			update_post_meta( $post_ID, 'quiz_options', $options );
+			update_post_meta( $postID, 'quiz_options', $options );
+			update_post_meta( $postID, 'quiz_options_correct', $correctOption );
+
+			wp_send_json( [
+				'message' => 'From php'
+			], 200 );
 		}
+
 	}
 
 }

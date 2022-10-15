@@ -52,5 +52,7 @@ class Quiziest {
 				}
 			}
 		}
+		wp_localize_script( 'quiz-options', 'ajax', [ 'url' => admin_url( 'admin-ajax.php' ) ] );
+
 	}
 }
